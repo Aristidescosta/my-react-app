@@ -8,7 +8,7 @@ interface IUserLoggedProviderData{
   userName: string;
 }
 
-const UserLoggedContext = createContext<IUserLoggedProviderData>({} as IUserLoggedProviderData)
+export const UserLoggedContext = createContext<IUserLoggedProviderData>({} as IUserLoggedProviderData)
 
 export const UserLoggedProvider: React.FC<IUserLoggedProviderProps> = ({children}) =>{
   return(

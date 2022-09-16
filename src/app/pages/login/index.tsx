@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+
+import { InputLogin } from "./components/inputLogin";
 
 export const Login = () => {
   const inputPasswordRef = useRef<HTMLInputElement>(null);
@@ -17,39 +19,24 @@ export const Login = () => {
   const emailLength = useMemo(() => {
     return email.length * 1000;
   }, [email.length]);
-  useEffect(() => {
-    if (window.confirm("Você é homem?")) {
-      console.log("homem");
-    } else {
-      console.log("Mulher");
-    }
-  }, []);
 
   return (
     <form>
       <p>Quantidade de letras no email: {emailLength}</p>
-      <label>
-        <span>Email</span>
-        <input
-          type="text"
-          onKeyDown={(e) =>
-            e.key === "Enter" ? inputPasswordRef.current?.focus() : undefined
-          }
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-        />
-      </label>
+      <InputLogin
+        label="Email"
+        type="text"
+        value={email}
+        onChange={(newValue) => setEmail(newValue)}
+        onPressEnter={() => inputPasswordRef.current?.focus()}
+      />
 
-      <label>
-        <span>Senha</span>
-        <input
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          ref={inputPasswordRef}
-        />
-      </label>
-
+      <InputLogin
+        label="Senha"
+        type="password"
+        value={password}
+        onChange={(newValue) => setPassword(newValue)}
+      />
       <button type="button" onClick={handleEnter}>
         Entrar
       </button>

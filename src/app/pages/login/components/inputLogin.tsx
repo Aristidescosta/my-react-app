@@ -8,24 +8,21 @@ interface IinputLoginProps {
   onPressEnter?: () => void;
 }
 
-export const InputLogin: React.FC<IinputLoginProps> = ({
-  label,
-  type,
-  value,
-  onChange,
-  onPressEnter,
-}) => {
-  return (
-    <label>
-      <span>{label}</span>
-      <input
-        type={type}
-        onChange={(e) => onChange(e.target.value)}
-        value={value}
-        onKeyDown={(e) =>
-          e.key === "Enter" ? onPressEnter && onPressEnter() : undefined
-        }
-      />
-    </label>
-  );
-};
+export const InputLogin = React.forwardRef<HTMLInputElement, IinputLoginProps>(
+  ({ label, type, value, onChange, onPressEnter }, ref) => {
+    return (
+      <label>
+        <span>{label}</span>
+        <input
+          type={type}
+					ref={ref}
+          onChange={(e) => onChange(e.target.value)}
+          value={value}
+          onKeyDown={(e) =>
+            e.key === "Enter" ? onPressEnter && onPressEnter() : undefined
+          }
+        />
+      </label>
+    );
+  }
+);

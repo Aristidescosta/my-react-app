@@ -1,8 +1,7 @@
-export class ApiException{
-    public readonly message: string = "";
+export class ApiException {
+  public readonly message: string = "";
 
-    constructor(message: string){
-
-        this.message = message;
-    }
+  constructor(message: string) {
+    this.message = message;
+  }
 }

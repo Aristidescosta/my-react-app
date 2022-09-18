@@ -1,19 +1,26 @@
-import React, { useCallback, useState } from "react";
-
-interface ITasks {
-  id: number;
-  title: string;
-  isCompleted: boolean;
-}
+import React, { useCallback, useEffect, useState } from "react";
+import { ApiException } from "../../shared/services/api/ErrorException";
+import { ITasks, TasksServices } from "../../shared/services/api/tasks";
 
 export const Dashboard = () => {
   const [list, setList] = useState<ITasks[]>([]);
+
+  useEffect(() => {
+    TasksServices.getAll().then((result) => {
+      if(result instanceof ApiException)
+      alert(result.message)
+      else
+      setList(result)
+    })
+  },[])
+
   const handleInputKeyDown: React.KeyboardEventHandler<HTMLInputElement> =
     useCallback((e) => {
       if (e.key === "Enter") {
         if (e.currentTarget.value.trim().length === 0) return;
 
         const value = e.currentTarget.value;
+        console.log(value)
 
         e.currentTarget.value = "";
 
@@ -24,7 +31,7 @@ export const Dashboard = () => {
             ...oldList,
             {
               id: oldList.length,
-              title: e.currentTarget.value,
+              title: value,
               isCompleted: false,
             },
           ];

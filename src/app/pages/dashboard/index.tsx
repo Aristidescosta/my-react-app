@@ -7,37 +7,39 @@ export const Dashboard = () => {
 
   useEffect(() => {
     TasksServices.getAll().then((result) => {
-      if(result instanceof ApiException)
-      alert(result.message)
-      else
-      setList(result)
-    })
-  },[])
+      if (result instanceof ApiException) alert(result.message);
+      else setList(result);
+    });
+  }, []);
 
   const handleInputKeyDown: React.KeyboardEventHandler<HTMLInputElement> =
-    useCallback((e) => {
-      if (e.key === "Enter") {
-        if (e.currentTarget.value.trim().length === 0) return;
+    useCallback(
+      (e) => {
+        if (e.key === "Enter") {
+          if (e.currentTarget.value.trim().length === 0) return;
 
-        const value = e.currentTarget.value;
-        console.log(value)
+          const value = e.currentTarget.value;
 
-        e.currentTarget.value = "";
+          e.currentTarget.value = "";
 
-        setList((oldList) => {
-          if (oldList.some((listItem) => listItem.title === value))
-            return oldList;
-          return [
-            ...oldList,
-            {
-              id: oldList.length,
-              title: value,
-              isCompleted: false,
-            },
-          ];
-        });
-      }
-    }, []);
+          if (list.some((listItem) => listItem.title === value)) return;
+
+          TasksServices.create({ title: value, isCompleted: false }).then(
+            (result) => {
+              if (result instanceof ApiException) alert(result.message);
+              else
+                setList((oldList) => {
+                  return [
+                    ...oldList,
+                    result,
+                  ];
+                });
+            }
+          );
+        }
+      },
+      [list]
+    );
 
   return (
     <>
@@ -54,13 +56,13 @@ export const Dashboard = () => {
                 onChange={() => {
                   setList((oldList) => {
                     return oldList.map((oldListItem) => {
-                      const newisCompleted =
+                      const newIsCompleted =
                         oldListItem.title === listItem.title
                           ? !oldListItem.isCompleted
                           : oldListItem.isCompleted;
                       return {
                         ...oldListItem,
-                        isCompleted: newisCompleted,
+                        isCompleted: newIsCompleted,
                       };
                     });
                   });

@@ -50,7 +50,7 @@ const updateById = async (
 
 const deleteById = async (id: number): Promise<undefined | ApiException> => {
   try {
-    await Api().get(`/tasks/${id}`);
+    await Api().delete(`/tasks/${id}`);
     return undefined;
   } catch (error: any) {
     return new ApiException(error.message || "Erro ao deletar essa tarefa");

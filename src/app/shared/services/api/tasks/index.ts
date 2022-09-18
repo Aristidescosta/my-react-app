@@ -39,7 +39,7 @@ const create = async (
 const updateById = async (
   id: number,
   dataUpdate: ITasks
-): Promise<ITasks[] | ApiException> => {
+): Promise<ITasks | ApiException> => {
   try {
     const { data } = await Api().put(`/tasks/${id}`, dataUpdate);
     return data;
